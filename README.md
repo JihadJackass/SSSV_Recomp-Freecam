@@ -8,11 +8,7 @@ instead of being limited to the vanilla 45-degree C-button snaps.
 <p align="center">
   <img width="700" alt="In-game screenshot: the camera orbited to a custom angle around the player's animal using the middle mouse button" src="https://github.com/user-attachments/assets/b69f4a1a-316e-4ea1-8aa6-fc3130fb5cdd" />
   <br>
-<<<<<<< Updated upstream
-  <em>Orbit the camera to any angle by holding the Middle Mouse Button — here at an angle the vanilla 45-degree snaps can't reach.</em>
-=======
   <em>Orbit the camera to any angle by holding the Middle Mouse Button, including angles the vanilla 45-degree snaps can't reach.</em>
->>>>>>> Stashed changes
 </p>
 
 <p align="center">
