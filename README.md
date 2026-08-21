@@ -5,11 +5,17 @@ that adds smooth, mouse-driven camera control: hold the **Middle Mouse Button**
 and move the mouse to freely orbit the camera around your current animal —
 no more being limited to the vanilla 45-degree C-button snaps.
 
-*Orbit the camera to any angle by holding the Middle Mouse Button; here shown at an angle the vanilla 45-degree snaps can't reach.*
-<img width="530" height="420" alt="In-game screenshot: the camera orbited to a custom angle around the player's animal using the middle mouse button" src="https://github.com/user-attachments/assets/b69f4a1a-316e-4ea1-8aa6-fc3130fb5cdd" />
+<p align="center">
+  <img width="700" alt="In-game screenshot: the camera orbited to a custom angle around the player's animal using the middle mouse button" src="https://github.com/user-attachments/assets/b69f4a1a-316e-4ea1-8aa6-fc3130fb5cdd" />
+  <br>
+  <em>Orbit the camera to any angle by holding the Middle Mouse Button — here at an angle the vanilla 45-degree snaps can't reach.</em>
+</p>
 
-*Everything is adjustable live from the in-game **Mods → Configure** menu: recenter delay, never-recenter, sensitivity, and inversion.*
-<img width="532" height="337" alt="The mod's Configure menu showing sliders for recenter delay and orbit sensitivity, plus toggles for never-recenter and invert" src="https://github.com/user-attachments/assets/61bdc3e1-d2f2-4307-a6f7-056324ce50e3" />
+<p align="center">
+  <img width="532" alt="The mod's Configure menu showing sliders for recenter delay and orbit sensitivity, plus toggles for never-recenter and invert" src="https://github.com/user-attachments/assets/61bdc3e1-d2f2-4307-a6f7-056324ce50e3" />
+  <br>
+  <em>Everything is adjustable live from the in-game Mods → Configure menu: recenter delay, never-recenter, sensitivity, and inversion.</em>
+</p>
 
 ## Features
 
