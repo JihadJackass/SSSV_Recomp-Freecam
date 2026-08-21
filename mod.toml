@@ -2,7 +2,7 @@
 
 [manifest]
 id = "sssv_freecam_mmb_orbit"
-version = "1.2.0"
+version = "1.0.7"
 display_name = "Free Camera (Middle Mouse Orbit)"
 description = """
 Hold the Middle Mouse Button and move the mouse to freely orbit the camera \
@@ -10,7 +10,7 @@ around your animal. Works in the normal chase-camera modes; cutscene, \
 waypoint, and fixed cameras are left untouched. The vanilla C-Left/C-Right \
 45-degree snapping still works alongside it."""
 short_description = "Hold MMB to freely orbit the camera with the mouse."
-authors = [ "you" ]
+authors = [ "JihadiJackassStudios" ]
 
 # Target game ID as registered by SSSVRecompiled (src/main/main.cpp: mod_game_id = "sssv").
 game_id = "sssv"
