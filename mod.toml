@@ -1,0 +1,39 @@
+# SSSV Recompiled - Free Camera mod manifest.
+
+[manifest]
+id = "sssv_freecam_mmb_orbit"
+version = "1.1.0"
+display_name = "Free Camera (Middle Mouse Orbit)"
+description = """
+Hold the Middle Mouse Button and move the mouse to freely orbit the camera \
+around your animal. Works in the normal chase-camera modes; cutscene, \
+waypoint, and fixed cameras are left untouched. The vanilla C-Left/C-Right \
+45-degree snapping still works alongside it."""
+short_description = "Hold MMB to freely orbit the camera with the mouse."
+authors = [ "you" ]
+
+# Target game ID as registered by SSSVRecompiled (src/main/main.cpp: mod_game_id = "sssv").
+game_id = "sssv"
+
+# SSSVRecompiled's version string at time of writing (src/main/main.cpp).
+minimum_recomp_version = "0.1.2"
+
+dependencies = [ ]
+optional_dependencies = [ ]
+
+# The companion library that reads SDL mouse state from the host process.
+# The runtime loads "sssv_freecam_native" + platform extension (.dll/.so/.dylib)
+# from the same folder as the .nrm file.
+native_libraries = [
+    { name = "sssv_freecam_native", funcs = ["SSSVFreeCam_PollMouse"] }
+]
+
+[inputs]
+elf_path = "build/mod.elf"
+mod_filename = "sssv_freecam_mmb_orbit"
+
+# Reference symbols copied from SSSV_Recomp/SSSVRecompSyms.
+func_reference_syms_file = "syms/sssv.us.syms.toml"
+data_reference_syms_files = [ "syms/sssv.us.datasyms.toml" ]
+
+additional_files = [ ]
