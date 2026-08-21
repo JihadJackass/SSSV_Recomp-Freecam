@@ -2,7 +2,7 @@
 
 [manifest]
 id = "sssv_freecam_mmb_orbit"
-version = "1.1.0"
+version = "1.2.0"
 display_name = "Free Camera (Middle Mouse Orbit)"
 description = """
 Hold the Middle Mouse Button and move the mouse to freely orbit the camera \
@@ -37,3 +37,47 @@ func_reference_syms_file = "syms/sssv.us.syms.toml"
 data_reference_syms_files = [ "syms/sssv.us.datasyms.toml" ]
 
 additional_files = [ ]
+
+# ---------------------------------------------------------------------------
+# In-game Configure menu options
+# ---------------------------------------------------------------------------
+
+[[manifest.config_options]]
+id = "recenter_delay"
+name = "Recenter delay (seconds)"
+description = "How long after releasing the middle mouse button before the camera starts drifting back behind your animal. Set to 0 for vanilla-style immediate recentering."
+type = "Number"
+min = 0
+max = 30
+step = 0.5
+precision = 1
+percent = false
+default = 3
+
+[[manifest.config_options]]
+id = "never_recenter"
+name = "Never recenter"
+description = "When enabled, the camera always stays where you put it and never drifts back on its own (overrides the delay slider). Wall avoidance still works."
+type = "Enum"
+options = [ "Off", "On" ]
+default = "Off"
+
+[[manifest.config_options]]
+id = "sensitivity"
+name = "Orbit sensitivity"
+description = "Camera rotation per mouse movement."
+type = "Number"
+min = 0.05
+max = 1.0
+step = 0.01
+precision = 2
+percent = false
+default = 0.22
+
+[[manifest.config_options]]
+id = "invert_x"
+name = "Invert horizontal"
+description = "Invert the orbit direction."
+type = "Enum"
+options = [ "Off", "On" ]
+default = "Off"

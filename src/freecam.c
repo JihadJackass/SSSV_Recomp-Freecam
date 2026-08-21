@@ -26,6 +26,7 @@
 //   - mkst/sssv decomp: src.us/sssv/camera.c, include/structs.h (Camera, size 0xDC)
 
 #include "modding.h"
+#include "recompconfig.h"
 
 typedef signed char        s8;
 typedef unsigned char      u8;
@@ -36,24 +37,13 @@ typedef unsigned int       u32;
 typedef float              f32;
 
 // ---------------------------------------------------------------------------
-// Tuning - edit these and rebuild to taste.
+// Tuning - all adjustable live from the in-game Mods > Configure menu.
+// The values below are only fallbacks matching the manifest defaults.
 // ---------------------------------------------------------------------------
 
-// Yaw sensitivity: camera angle units per mouse count. 256 units = 360
-// degrees, so 0.25 means ~2.8 degrees per 10 counts of mouse movement.
-#define FREECAM_SENSITIVITY   0.22f
-
-// Set to 1 to invert horizontal orbit direction.
-#define FREECAM_INVERT_X      0
-
-// Delay (in game frames, 30 per second) after you release MMB before the
-// game's auto-recenter (which rotates the camera back behind the animal's
-// heading) is allowed to kick in. Vanilla C-button rotation uses 200 (~6.7s).
-#define FREECAM_RECENTER_DELAY  300
-
-// Set to 1 to disable auto-recentering entirely while in chase modes.
-// The camera then always stays where you put it (wall avoidance still works).
-#define FREECAM_NEVER_RECENTER  0
+// Game logic ticks per second (NTSC). Used to convert the delay slider
+// (seconds) into the game's frame-countdown timer.
+#define FREECAM_TICKS_PER_SECOND 30.0f
 
 // ---------------------------------------------------------------------------
 // Game structures (minimal, offsets from the decomp's Camera struct)
@@ -137,18 +127,19 @@ void freecam_on_camera_input(OSContPad* cont) {
 
     cam = &gCameras[gCameraId];
 
-#if FREECAM_NEVER_RECENTER
-    // Keep the suppression timer topped up every frame in player chase modes,
-    // so auto-recenter never engages. Wall-escape rotation is not gated by
-    // this timer, so the camera can still free itself from geometry.
-    if (cam->playerControlled == 1 &&
-        (cam->cameraMode == CAMERA_MODE_1 || cam->cameraMode == CAMERA_MODE_2 ||
-         cam->cameraMode == CAMERA_MODE_12 || cam->cameraMode == CAMERA_MODE_26)) {
-        if (cam->autoAlignDelay < 1000) {
-            cam->autoAlignDelay = 1000;
+    // "Never recenter": keep the suppression timer topped up every frame in
+    // player chase modes, so auto-recenter never engages. Wall-escape
+    // rotation is not gated by this timer, so the camera can still free
+    // itself from geometry.
+    if (recomp_get_config_u32("never_recenter") != 0) {
+        if (cam->playerControlled == 1 &&
+            (cam->cameraMode == CAMERA_MODE_1 || cam->cameraMode == CAMERA_MODE_2 ||
+             cam->cameraMode == CAMERA_MODE_12 || cam->cameraMode == CAMERA_MODE_26)) {
+            if (cam->autoAlignDelay < 1000) {
+                cam->autoAlignDelay = 1000;
+            }
         }
     }
-#endif
 
     // Only act while the middle mouse button is held.
     if ((mouse[2] & SDL_BUTTON_MMASK) == 0) {
@@ -166,10 +157,10 @@ void freecam_on_camera_input(OSContPad* cont) {
         return;
     }
 
-    delta = (f32)mouse[0] * FREECAM_SENSITIVITY;
-#if FREECAM_INVERT_X
-    delta = -delta;
-#endif
+    delta = (f32)mouse[0] * (f32)recomp_get_config_double("sensitivity");
+    if (recomp_get_config_u32("invert_x") != 0) {
+        delta = -delta;
+    }
 
     cam->yawTarget += delta;
 
@@ -186,7 +177,14 @@ void freecam_on_camera_input(OSContPad* cont) {
 
     // Arm the game's own auto-recenter suppression timer (the same field the
     // vanilla C-buttons set to 200). It counts down once per frame starting
-    // the moment you release MMB, so this is the post-release delay before
-    // the camera starts drifting back behind the animal's heading.
-    cam->autoAlignDelay = FREECAM_RECENTER_DELAY;
+    // the moment you release MMB, so the slider value (in seconds) is the
+    // post-release delay before the camera starts drifting back behind the
+    // animal's heading.
+    {
+        f32 delay_frames = (f32)recomp_get_config_double("recenter_delay") * FREECAM_TICKS_PER_SECOND;
+        s16 frames = (s16)delay_frames;
+        if (frames < 1) { frames = 1; }  // 0s slider ~= vanilla immediate recenter
+        cam->autoAlignDelay = frames;    // held at this value while MMB is down;
+                                         // the countdown starts on release
+    }
 }
